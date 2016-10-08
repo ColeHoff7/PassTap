@@ -35,6 +35,7 @@ public class InitializeBrowserActivity extends AppCompatActivity {
     protected void toMain(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     protected void getKey(){

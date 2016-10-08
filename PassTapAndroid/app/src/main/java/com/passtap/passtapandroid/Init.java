@@ -17,6 +17,6 @@ public class Init extends AppCompatActivity {
     public void initialSetup(View view) {
         Intent intent = new Intent(this, InitializeBrowserActivity.class);
         startActivity(intent);
-
+        finish();
     }
 }

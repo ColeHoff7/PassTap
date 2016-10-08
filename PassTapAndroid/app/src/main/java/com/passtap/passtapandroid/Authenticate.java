@@ -1,5 +1,6 @@
 package com.passtap.passtapandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,13 @@ import static com.passtap.passtapandroid.InitializeBrowserActivity.instanceId;
 
 public class Authenticate extends AppCompatActivity {
 
+    String domain = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate);
+        Bundle b = getIntent().getExtras();
+        if(b != null) domain = b.getString("domain");
     }
 
     private void sendAuthentication() {
@@ -35,7 +39,7 @@ public class Authenticate extends AppCompatActivity {
                 e.printStackTrace();
             }
         }else {
-            url += pk + "&v3=";
+            url += pk + "&v3=" + domain;
         }
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -58,5 +62,9 @@ public class Authenticate extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

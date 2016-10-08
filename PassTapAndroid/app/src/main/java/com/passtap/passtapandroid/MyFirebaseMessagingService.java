@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -40,7 +41,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         sendNotification(remoteMessage.getNotification().getBody());
-        authenticate();
+        authenticate(remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody) {
@@ -52,8 +53,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle("PassTap Message")
-                .setContentText(messageBody)
+                .setContentTitle("PassTap Authentication Request")
+                .setContentText("Authentication request for: " + messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
@@ -64,8 +65,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    private void authenticate(){
+    private void authenticate(String domain){
         Intent intent = new Intent(this, Authenticate.class);
+        Bundle b = new Bundle();
+        b.putString("domain", domain);
+        intent.putExtras(b);
         startActivity(intent);
     }
 }

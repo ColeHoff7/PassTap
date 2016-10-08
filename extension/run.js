@@ -7,7 +7,7 @@ function load(){
     // No profile in storage
     	console.log("I kinda work");
     	document.getElementById("content").innerHTML= "<h2>First Time User</h2> <p>Please enter the ID generated from" +
-    	"the PassTap mobile app. Reload page after submission.<p> " +
+    	" the PassTap mobile app.<p> " +
     	"<input id=\"ID\" type=\"text\">";
 		
 
@@ -31,21 +31,35 @@ function save(){
 	chrome.storage.local.set({'id': text}, function(txt){
 		console.log('ID saved' + text);
 		$.ajax({
-	  			url: "https://passtap.com/server.php?v1=verify&v2=" + id + "&v3=", 
+	  			url: "https://passtap.com/server.php?v1=verify&v2=" + text + "&v3=", 
 	  			success: function(result){
+	  			console.log("Verify: " + result);
         		if(result==1){
         			document.getElementById("content").innerHTML="<p>Success</p>";
 					document.getElementById("submit").innerHTML="";
+					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        				chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
+    				});
         		}else{
-        			chrome.storage.local.remove({'id': text});
+        			chrome.storage.local.remove('id');
         			document.getElementById("content").innerHTML="<p>Retry<p>";
-					document.getElementById("submit").innerHTML="";
+					reload();
         		}
         	}});
 	});
-	location.reload();
+	
+	
+    
+    // location.reload();
 	return false;
 }
+
+function reload(){
+	document.getElementById("content").innerHTML= "<p>Please enter the ID generated from" +
+    	" the PassTap mobile app. Initial entry was incorrect.<p> " +
+    	"<input id=\"ID\" type=\"text\">";
+}
+
 
 
 load();

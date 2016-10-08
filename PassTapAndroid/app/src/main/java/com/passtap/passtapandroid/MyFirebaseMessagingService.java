@@ -67,6 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void authenticate(String domain){
         Intent intent = new Intent(this, Authenticate.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle b = new Bundle();
         b.putString("domain", domain);
         intent.putExtras(b);

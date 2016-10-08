@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Fingerprint Authentication Extension",
+  "description": "This extension will fill in passwords after fingerprint authentication via mobile device",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}

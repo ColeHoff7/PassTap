@@ -1,62 +1,52 @@
-chrome.tabs.executeScript(null,{file: "run2.js"});
+function load(){
+	console.log("I kinda work");
+	chrome.storage.local.get('id', function(profileObj) {
+		var id = profileObj.id;
+		console.log(id);
+	  	if (typeof id === "undefined") {
+    // No profile in storage
+    	console.log("I kinda work");
+    	document.getElementById("content").innerHTML= "<h2>First Time User</h2> <p>Please enter the ID generated from" +
+    	"the PassTap mobile app. Reload page after submission.<p> " +
+    	"<input id=\"ID\" type=\"text\">";
+		
 
+  	} else {
+    // Profile exists in storage
+    	$("#submit").attr("hidden","true");
+    	console.log(chrome.storage.local.get("id"), function(result){
+    		console.log(id.result);
+    	});
+    	
 
-// chrome.tabs.onClicked.addListener(function(tab){
-// 	chrome.tabs.executeScript({
-// 		code: 'document.body.style.backgroundColor="red"'
-// 	});
-// });
-
-
-// function load(){
-// 	console.log("I kinda work");
-// 	document.getElementByTagName("div").innerHTML = "This Sucks";
-// 	document.getElementById("content").innerHTML+= '<h2>First Time User</h2>';
-// 	    	// <p>Please enter the ID generated from' +
-// 	    	// 'the PassTap mobile app. Reload page after submission.<p><form onsubmit=\"return save()\">' +
-// 	    	// '<input id=\"ID\" type=\"text\"><input type=\"submit\" value=\"Submit\"></form>';
-// 	if (typeof(Storage) !== "undefined") {
-// 	    // Code for localStorage/sessionStorage
-// 	    var available = false;
-// 	    var id = "";
-// 	    try{
-// 	    	key = localStorage.getItem("id");
-// 	    	available = true;
-// 	    }catch(err){
-// 	    	available = false;
-// 	    }
-// 	    if(!available){
-// 	    	document.getElementById("content").innerHTML= "<h2>First Time User</h2> <p>Please enter the ID generated from" +
-// 	    	"the PassTap mobile app. Reload page after submission.<p><form onsubmit=\"return save()\">" +
-// 	    	"<input id=\"ID\" type=\"text\"><input type=\"submit\" value=\"Submit\"></form>";
-	    	
-// 	    }else{
-	    	
-// 	    }
-// 	} else {
-// 	    console.log("I dont localstore")
-
-// 	}
-// }
+  	}
+	});
+}
 
 // document.load = load;
 
-// function save(){
-// 	var text = document.getElementById("ID").value;
-// 	localStorage.setItem("ID", text);
-// }
+function save(){
+	console.log('starting');
+	var text = document.getElementById("ID").value;
+	chrome.storage.local.set({'id': text}, function(txt){
+		console.log('ID saved' + text);
+		$.ajax({
+	  			url: "https://passtap.com/server.php?v1=verify&v2=" + id + "&v3=", 
+	  			success: function(result){
+        		if(result==1){
+        			document.getElementById("content").innerHTML="<p>Success</p>";
+					document.getElementById("submit").innerHTML="";
+        		}else{
+        			chrome.storage.local.remove({'id': text});
+        			document.getElementById("content").innerHTML="<p>Retry<p>";
+					document.getElementById("submit").innerHTML="";
+        		}
+        	}});
+	});
+	location.reload();
+	return false;
+}
 
-// function add(){
-// 	document.getElementById("content").innerHTML = '<h2>First Time User</h2>';
-// }
 
-// chrome.tabs.onUpdated.addListener(
-//   function ( tabId, changeInfo, tab )
-//   { 
-//     if ( changeInfo.status === "complete" )
-//     {
-//       chrome.tabs.executeScript({
-//       code: "console.log('dsff');"
-//     });
-//   }
-// });
+load();
+document.getElementById("button").addEventListener('click', save);

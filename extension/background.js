@@ -2,7 +2,7 @@
 
 console.log("We did it again");
 
-chrome.extension.onRequest.addListener(function(tab){
+chrome.browserAction.onClicked.addListener(function(tab){
 	console.log("Here we are");
 	chrome.tabs.executeScript({
 		code: 'document.body.style.backgroundColor="red"'

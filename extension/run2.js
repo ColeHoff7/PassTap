@@ -1,4 +1,5 @@
 var id;
+var user;
 
 console.log("We made it");
 
@@ -14,10 +15,17 @@ if($("[type=password]").length){
 	  				console.log("checkDomain: "+ result);
 	        		if(result==1){
 	        			//has used domain
+	        			chrome.storage.local.get('user', function(profileObj) {
+							user = profileObj.id;
+						});
 	        			checkFill();
 	        		}else if(result==0){
 	        			//hasn't used domain
 	        			if (confirm('Would you like to generate a password for this site?')) {
+	        				user = prompt("Username/Email:");
+	        				chrome.storage.local.set({'user': user}, function(value){
+	        					console.log("Saved username");
+	        				});
 	       	 				generatePass();
 	    				}
 	        		}else{
@@ -62,7 +70,7 @@ if($("[type=password]").length){
   				last = $("input").first();
   				$("input").each(function(){
   					if($(this).attr("type") == "password"){
-  						last.val("User Name Here");
+  						last.val(user);
   						clearInterval(timer);
   					}
   					last = $(this);

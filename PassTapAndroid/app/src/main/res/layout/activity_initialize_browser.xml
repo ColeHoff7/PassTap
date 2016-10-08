@@ -17,4 +17,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="79dp"
         android:id="@+id/output" />
+
+    <Button
+        android:text="All Set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/output"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="138dp"
+        android:layout_marginTop="200dp"
+        android:id="@+id/button3"
+        android:onclick="toMain"/>
 </RelativeLayout>

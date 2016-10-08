@@ -1,5 +1,6 @@
 package com.passtap.passtapandroid;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -27,12 +28,24 @@ public class IdentifierManager extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendNewTokenToServer(refreshedToken);
+        try {
+            sendNewTokenToServer(refreshedToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void sendNewTokenToServer(String refreshedToken){
+    //TODO test
+    public void sendNewTokenToServer(String refreshedToken) throws Exception {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://passtap.com/server.php?";
+        SharedPreferences sp = getSharedPreferences("privateKey", 0);
+        String pk = sp.getString("privateKey", "ERROR");
+        String url ="https://passtap.com/server.php?v1=updateToken&v2=";
+        if(pk.equals("ERROR")){
+            throw new Exception("EVERYTHING'S FUCKED");
+        }else {
+            url += pk + "&v3=" + refreshedToken;
+        }
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

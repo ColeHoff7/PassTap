@@ -1,9 +1,9 @@
 package com.passtap.passtapandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -12,12 +12,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sp = getSharedPreferences("privateKey", 0);
+        String pk = sp.getString("privateKey", "ERROR");
+        if(pk.equals("ERROR")){
+            Intent intent = new Intent(this, Init.class);
+            startActivity(intent);
+        }
     }
 
-    /** Called when the user clicks the Start button */
-    public void initialSetup(View view) {
-        Intent intent = new Intent(this, InitializeBrowserActivity.class);
-        startActivity(intent);
-
-    }
+    //TODO listen for pushes from server, authenticate
 }

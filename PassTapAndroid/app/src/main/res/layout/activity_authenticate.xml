@@ -18,5 +18,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="92dp"
         android:id="@+id/button2"
-        android:onclick="sendAuthentication"/>
+        android:onClick="sendAuthentication"/>
 </RelativeLayout>

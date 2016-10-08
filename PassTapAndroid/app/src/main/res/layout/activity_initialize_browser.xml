@@ -27,5 +27,5 @@
         android:layout_marginEnd="138dp"
         android:layout_marginTop="200dp"
         android:id="@+id/button3"
-        android:onclick="toMain"/>
+        android:onClick="toMain"/>
 </RelativeLayout>

@@ -21,8 +21,7 @@ import org.json.JSONObject;
 public class InitializeBrowserActivity extends AppCompatActivity {
 
     //public static FirebaseInstanceIdService instanceIdService = new FirebaseInstanceIdService();
-    public static FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
-    public static IdentifierManager idManager = new IdentifierManager();
+    public FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class InitializeBrowserActivity extends AppCompatActivity {
     }
 
     //called when finished with browser authentication
-    protected void toMain(){
+    public void toMain(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -81,5 +80,6 @@ public class InitializeBrowserActivity extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        return;
     }
 }

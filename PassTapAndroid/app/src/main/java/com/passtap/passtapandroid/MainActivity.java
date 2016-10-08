@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     MyFirebaseMessagingService fbms = new MyFirebaseMessagingService();
+    //public FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
+    public IdentifierManager idManager = new IdentifierManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

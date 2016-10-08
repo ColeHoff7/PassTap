@@ -12,8 +12,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import static com.passtap.passtapandroid.InitializeBrowserActivity.instanceId;
-
 public class Authenticate extends AppCompatActivity {
 
     String domain = null;
@@ -28,7 +26,6 @@ public class Authenticate extends AppCompatActivity {
     private void sendAuthentication() {
         //send server authentication
         RequestQueue queue = Volley.newRequestQueue(this);
-        String token = instanceId.getToken();
         String url ="https://passtap.com/server.php?v1=setPass&v2=";
         SharedPreferences sp = getSharedPreferences("privateKey", 0);
         String pk = sp.getString("privateKey", "ERROR");

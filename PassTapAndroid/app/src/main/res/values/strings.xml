@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PassTap</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="button_send">Start</string>
+</resources>

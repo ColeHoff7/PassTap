@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,7 +24,7 @@ public class Authenticate extends AppCompatActivity {
         if(b != null) domain = b.getString("domain");
     }
 
-    private void sendAuthentication() {
+    private void sendAuthentication(View view) {
         //send server authentication
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://passtap.com/server.php?v1=setPass&v2=";

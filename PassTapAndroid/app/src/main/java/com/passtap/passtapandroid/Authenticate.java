@@ -1,5 +1,6 @@
 package com.passtap.passtapandroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,12 +21,22 @@ public class Authenticate extends AppCompatActivity {
         setContentView(R.layout.activity_authenticate);
     }
 
-    private void sendAuthentication(){
+    private void sendAuthentication() {
         //send server authentication
         RequestQueue queue = Volley.newRequestQueue(this);
         String token = instanceId.getToken();
         String url ="https://passtap.com/server.php?v1=setPass&v2=";
-
+        SharedPreferences sp = getSharedPreferences("privateKey", 0);
+        String pk = sp.getString("privateKey", "ERROR");
+        if(pk.equals("ERROR")){
+            try {
+                throw new Exception("EVERYTHING'S FUCKED");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            url += pk + "&v3=";
+        }
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

@@ -4,21 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <service android:name=".com.passtap.passtapandroid.MyFirebaseMessagingService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
-    <service android:name=".MyFirebaseInstanceIDService">
-        <intent-filter>
-            <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-        </intent-filter>
-    </service>
-    <service android:name=".com.passtap.passtapandroid.MyFirebaseMessagingService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-    </service>
+
 
     <application
         android:allowBackup="true"
@@ -36,6 +22,18 @@
         <activity android:name=".InitializeBrowserActivity" />
         <activity android:name=".Init" />
         <activity android:name=".Authenticate"></activity>
+
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".IdentifierManager">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

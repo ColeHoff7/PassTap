@@ -21,4 +21,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TODO listen for pushes from server, authenticate
+
 }

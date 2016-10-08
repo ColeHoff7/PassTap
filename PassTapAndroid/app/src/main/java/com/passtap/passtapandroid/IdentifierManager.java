@@ -3,12 +3,6 @@ package com.passtap.passtapandroid;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -37,7 +31,6 @@ public class IdentifierManager extends FirebaseInstanceIdService {
 
     //TODO test
     public void sendNewTokenToServer(String refreshedToken) throws Exception {
-        RequestQueue queue = Volley.newRequestQueue(this);
         SharedPreferences sp = getSharedPreferences("privateKey", 0);
         String pk = sp.getString("privateKey", "ERROR");
         String url ="https://passtap.com/server.php?v1=updateToken&v2=";
@@ -46,25 +39,9 @@ public class IdentifierManager extends FirebaseInstanceIdService {
         }else {
             url += pk + "&v3=" + refreshedToken;
         }
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        if(response != null) {
 
-                        }else{
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("privateKey", refreshedToken);
+        editor.commit();
     }
 }

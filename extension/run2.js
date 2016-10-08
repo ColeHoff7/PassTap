@@ -1,4 +1,5 @@
 var id;
+var user;
 
 console.log("We made it");
 
@@ -18,6 +19,10 @@ if($("[type=password]").length){
 	        		}else if(result==0){
 	        			//hasn't used domain
 	        			if (confirm('Would you like to generate a password for this site?')) {
+	        				user = prompt("Username/Email:");
+	        				chrome.storage.local.set({'user': user}, function(value){
+	        					console.log("Saved username");
+	        				});
 	       	 				generatePass();
 	    				}
 	        		}else{

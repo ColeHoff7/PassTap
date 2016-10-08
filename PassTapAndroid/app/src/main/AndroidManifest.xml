@@ -14,10 +14,9 @@
             <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
         </intent-filter>
     </service>
-    <service
-        android:name=".com.passtap.passtapandroid.MyFirebaseMessagingService">
+    <service android:name=".com.passtap.passtapandroid.MyFirebaseMessagingService">
         <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
     </service>
 
@@ -35,7 +34,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".InitializeBrowserActivity" />
-        <activity android:name=".Init"></activity>
+        <activity android:name=".Init" />
+        <activity android:name=".Authenticate"></activity>
     </application>
 
 </manifest>

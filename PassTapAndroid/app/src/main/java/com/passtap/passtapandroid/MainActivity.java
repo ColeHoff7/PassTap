@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
+    MyFirebaseMessagingService fbms = new MyFirebaseMessagingService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

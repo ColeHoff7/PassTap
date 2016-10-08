@@ -5,6 +5,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	$cmd = $_REQUEST['v1'];
 	$id = $_REQUEST['v2'];
 	$var = $_REQUEST['v3'];
+	$var = str_replace("www.","",$var);
 
 	$servername = "localhost";
 	$username = "tonetwgv_passtap";
@@ -45,8 +46,6 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	// checks if an account (via an access token) has a password entry for a given domain name yet
 	if($cmd == "checkDomain"){
 
-		$var = str_replace("www.","",$var);
-
 		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON at.account_id = a.id INNER JOIN domains d ON d.account_id = a.id WHERE at.token = '".$id."' AND d.domain = '".$var."'";
 		$result = mysqli_query($conn, $sql);
 
@@ -58,27 +57,54 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 
 	}
 
-	// sends a request to the mobile app for a private key. Once a private key is obtained, it will store the generated password in the database until the client gets it, at which point it will be deleted
+	// Makes a new domain entry, then authorizes a password for it
 	if($cmd == "generatePass"){
 
-		$phone_id 	= "something";
+		$cmd = "getPass"; // Also run get pass after this
 
-		$message 	= "Hey mate, you gotta get me dat private key doe";
-		$title 		= "Private Key Please";
-		$subtitle	= "Give me some of that private key pls";
-		$ticker 	= "What the hell is a ticker???";
+		$var = json_decode($var, true);
+
+		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON at.account_id = a.id WHERE at.token = '".$id."'";
+		$result = mysqli_query($conn, $sql);
+
+		if (mysqli_num_rows($result) > 0) {
+
+			$row = mysqli_fetch_assoc($result);
+			$account_id = $row['account_id'];
+
+			$sql = "INSERT INTO domains (account_id, domain, username, salt) VALUES ('".$account_id."', '".$var["domain"]."','".$var["username"]."','FAKEsaltSTRING')";
+			$result = mysqli_query($conn, $sql);
+
+			$var = $var["domain"];
+
+
+		}else{
+			echo "ACCESS KEY NO LONGER VALID";
+		}
 		
-		sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker);
-
 
 	}
 
 	// sends a request to the mobile app for a private key. Once a private key is obtained, it will store the generated password in the database until the client gets it, at which point it will be deleted
 	if($cmd == "getPass"){
 
-		$phone_id 	= "something";
+		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON a.id = at.account_id INNER JOIN domains d ON d.account_id = a.id WHERE at.token = '".$id."' AND d.domain = '".$var."'";
+		$result = mysqli_query($conn, $sql);
 
-		$message 	= "Hey mate, you gotta get me dat private key doe";
+		$phone_id = "NO_PHONE_FOUND";
+
+		if (mysqli_num_rows($result) > 0) {
+
+			$row = mysqli_fetch_assoc($result);
+
+			$phone_id = $row['phone_id'];
+
+		}else{
+
+			die("INVALID ACCESS CODE OR DOMAIN DOESN'T EXIST YET");
+		}
+
+		$message 	= $var;
 		$title 		= "Private Key Please";
 		$subtitle	= "Give me some of that private key pls";
 		$ticker 	= "What the hell is a ticker???";
@@ -88,13 +114,34 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 
 	}
 
+
+	$salt = "uPIsomOpNedsadsaiKdwasddJfPaiHhhfyYUKkdnlLJLDKjLDWNqqemmIejsdOnnTesiJuNhsPolngfooMM";
+
+
+	if($cmd == "setPass"){
+
+		$keyHash = crypt($id, $salt); 
+
+		$pass = crypt($var.$id, $id);
+
+		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$pass."' WHERE a.private_hash = '".$keyHash."'";
+		$result = mysqli_query($conn, $sql);
+
+		if($result){
+			return 1;
+		}else{
+			return 0;
+		}
+
+	}
+
 	if($cmd == "generateKey"){
 
 		$key = generateRandomString();
-		$keyHash = crypt($key, SHA-256); 
+		$keyHash = crypt($key, $salt); 
 
 
-		$sql = "INSERT INTO accounts (phone_id, salt, private_hash) VALUES ('".$id."', '".$salt."', '".$keyHash."')";
+		$sql = "INSERT INTO accounts (phone_id, private_hash) VALUES ('".$id."', '".$keyHash."')";
 		$result = mysqli_query($conn, $sql);
 
 		$accessToken = generateRandomString(10);
@@ -109,14 +156,34 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 
 	if($cmd == "updateToken"){
 
-		$sql = "SELECT * FROM accounts WHERE private_hash"
+		$sql = "SELECT * FROM accounts";
+		$result = mysqli_query($conn, $sql);
+
+		if (mysqli_num_rows($result) > 0) {
+		    while($row = mysqli_fetch_assoc($result)) {
+
+		    	if(crypt($id, $salt) == $row['private_hash']){
+
+		    		$sql = "UPDATE accounts SET phone_id = '".$var."' WHERE id = ".$row['id'];
+					$result = mysqli_query($conn, $sql);
+
+					echo 1;
+
+					return;
+		    	}
+
+		    }
+
+		    echo 0;
+		}else{
+			echo "ERROR, NO ACCOUNT ASSOCIATED WITH THAT PASSWORD";
+		}
 
 
 	}
 
 	if($cmd == "checkPass"){
 
-		$var = str_replace("www.","",$var);
 
 		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON at.account_id = a.id INNER JOIN domains d ON d.account_id = a.id WHERE at.token = '".$id."' AND d.domain = '".$var."'";
 		$result = mysqli_query($conn, $sql);
@@ -127,9 +194,9 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 			if(!$row['pass'] || $row['pass']== null || $row['pass'] == ""){
 				echo 0;
 			}else{
-				echo $row['pass'];
+				echo '{"user":"'.$row['username'].'","password":"'.$row['pass'].'"}';
 				$sql = "UPDATE access_tokens at INNER JOIN accounts a ON at.account_id = a.id INNER JOIN domains d ON d.account_id = a.id SET d.pass = '' WHERE at.token = '".$id."' AND d.domain = '".$var."'";
-		$result = mysqli_query($conn, $sql);
+				$result = mysqli_query($conn, $sql);
 			}
 			
 		}else{
@@ -163,6 +230,7 @@ function generateRandomString($length = 100) {
 function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker){
 	// API access key from Google API's Console
 	define( 'API_ACCESS_KEY', 'AIzaSyCVLkbfdq3rYbEYq_oIq0xDWfQdBXy4C-4' );
+	// echo "Phone Id: ".$phone_id;
 	$registrationIds = array( $phone_id );
 	// prep the bundle
 	$msg = array
@@ -176,10 +244,15 @@ function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker){
 		'largeIcon'	=> 'large_icon',
 		'smallIcon'	=> 'small_icon'
 	);
+	$notification = array(
+		'body'		=> $message,
+		'title'		=> 'GetPass Request'
+	);
 	$fields = array
 	(
 		'registration_ids' 	=> $registrationIds,
-		'data'			=> $msg
+		'notification' 		=> $notification
+		//'data'			=> $msg
 	);
 	 
 	$headers = array

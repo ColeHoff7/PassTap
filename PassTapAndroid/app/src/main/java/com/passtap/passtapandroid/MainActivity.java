@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         if(pk.equals("ERROR")){
             Intent intent = new Intent(this, Init.class);
             startActivity(intent);
+            finish();
         }
     }
 

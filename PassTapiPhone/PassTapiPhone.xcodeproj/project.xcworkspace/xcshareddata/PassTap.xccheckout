@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>34A03972-A01D-4354-82E8-0FAC4972A567</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PassTap</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CD7F5238378A2C7A6BD90BAD57BEB340A702021A</key>
+		<string>https://github.com/ColeHoff7/TouchPass.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PassTap/PassTap.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CD7F5238378A2C7A6BD90BAD57BEB340A702021A</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ColeHoff7/TouchPass.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CD7F5238378A2C7A6BD90BAD57BEB340A702021A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CD7F5238378A2C7A6BD90BAD57BEB340A702021A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PassTap</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,4 +1,5 @@
 var id;
+var user;
 
 console.log("We made it");
 
@@ -18,6 +19,7 @@ if($("[type=password]").length){
 	        		}else if(result==0){
 	        			//hasn't used domain
 	        			if (confirm('Would you like to generate a password for this site?')) {
+	        				user = prompt("Username/Email:");
 	       	 				generatePass();
 	    				}
 	        		}else{
@@ -45,8 +47,9 @@ if($("[type=password]").length){
 
     function generatePass(){
     	$.ajax({
-  			url: "https://passtap.com/server.php?v1=generatePass&v2=" + id + "&v3=" + document.domain, 
+  			url: "https://passtap.com/server.php?v1=generatePass&v2=" + id + "&v3=" + "{\"username\":\""+ user +"\",\"domain\":\""+ document.domain +"\"}", 
   			success: function(result){
+  				console.log("GeneratePass: " + result);
   				timer = setInterval(check, 2000);
     	}});
     }
@@ -55,6 +58,8 @@ if($("[type=password]").length){
     	$.ajax({
   			url: "https://passtap.com/server.php?v1=checkPass&v2=" + id + "&v3=" + document.domain, 
   			success: function(result){
+  					console.log("Return: " + result)
+  				var data = JSON.parse(result);
   				console.log("Return: " + result);
   				if(result == 0){
   					return;
@@ -62,11 +67,11 @@ if($("[type=password]").length){
   				last = $("input").first();
   				$("input").each(function(){
   					if($(this).attr("type") == "password"){
-  						last.val("User Name Here");
+  						last.val(data["user"]);
   						clearInterval(timer);
   					}
   					last = $(this);
   				});
-  				$("[type=password]").val(result);
+  				$("[type=password]").val(data["password"]);
   			}});
     }

@@ -5,8 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 
 public class MainActivity extends AppCompatActivity {
+    //MyFirebaseMessagingService fbms = new MyFirebaseMessagingService();
+    public FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
+    //public IdentifierManager idManager = new IdentifierManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
         if(pk.equals("ERROR")){
             Intent intent = new Intent(this, Init.class);
             startActivity(intent);
+            finish();
         }
     }
 
     //TODO listen for pushes from server, authenticate
+
 }

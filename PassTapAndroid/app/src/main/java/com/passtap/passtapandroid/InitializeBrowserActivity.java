@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -21,8 +22,7 @@ import org.json.JSONObject;
 public class InitializeBrowserActivity extends AppCompatActivity {
 
     //public static FirebaseInstanceIdService instanceIdService = new FirebaseInstanceIdService();
-    public static FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
-    public static IdentifierManager idManager = new IdentifierManager();
+    public FirebaseInstanceId instanceId = FirebaseInstanceId.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,10 @@ public class InitializeBrowserActivity extends AppCompatActivity {
     }
 
     //called when finished with browser authentication
-    protected void toMain(){
+    public void toMain(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     protected void getKey(){
@@ -80,5 +81,6 @@ public class InitializeBrowserActivity extends AppCompatActivity {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+        return;
     }
 }

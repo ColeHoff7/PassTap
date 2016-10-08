@@ -37,7 +37,6 @@ public class IdentifierManager extends FirebaseInstanceIdService {
 
     //TODO test
     public void sendNewTokenToServer(String refreshedToken) throws Exception {
-        RequestQueue queue = Volley.newRequestQueue(this);
         SharedPreferences sp = getSharedPreferences("privateKey", 0);
         String pk = sp.getString("privateKey", "ERROR");
         String url ="https://passtap.com/server.php?v1=updateToken&v2=";
@@ -46,13 +45,15 @@ public class IdentifierManager extends FirebaseInstanceIdService {
         }else {
             url += pk + "&v3=" + refreshedToken;
         }
+        RequestQueue queue = Volley.newRequestQueue(this);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
+
                         if(response != null) {
+
 
                         }else{
 
@@ -66,5 +67,9 @@ public class IdentifierManager extends FirebaseInstanceIdService {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("privateKey", refreshedToken);
+        editor.commit();
     }
 }

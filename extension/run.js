@@ -1,4 +1,4 @@
-function load(){
+window.onload = function load(){
 
 	if (typeof(Storage) !== "undefined") {
 	    // Code for localStorage/sessionStorage.

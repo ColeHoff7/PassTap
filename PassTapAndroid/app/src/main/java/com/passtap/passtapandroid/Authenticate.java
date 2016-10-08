@@ -115,7 +115,7 @@ public class Authenticate extends AppCompatActivity {
         setContentView(R.layout.activity_authenticate);
         Bundle b = getIntent().getExtras();
         if(b != null) domain = b.getString("domain");
-        final TextView mTextView = (TextView) findViewById(R.id.output);
+        final TextView mTextView = (TextView) findViewById(R.id.textView3);
         mTextView.setText("Scan Fingerprint to Authenticate for " + domain);
 
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);

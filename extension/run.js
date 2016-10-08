@@ -57,7 +57,7 @@ function save(){
 function reload(){
 	document.getElementById("content").innerHTML= "<p>Please enter the ID generated from" +
     	" the PassTap mobile app. Initial entry was incorrect.<p> " +
-    	"<input id=\"ID\" type=\"text\">";
+    	"<input style=\"max-width:100\%\" id=\"ID\" type=\"text\">";
 }
 
 

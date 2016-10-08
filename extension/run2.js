@@ -15,6 +15,9 @@ if($("[type=password]").length){
 	  				console.log("checkDomain: "+ result);
 	        		if(result==1){
 	        			//has used domain
+	        			chrome.storage.local.get('user', function(profileObj) {
+							user = profileObj.id;
+						});
 	        			checkFill();
 	        		}else if(result==0){
 	        			//hasn't used domain
@@ -67,7 +70,7 @@ if($("[type=password]").length){
   				last = $("input").first();
   				$("input").each(function(){
   					if($(this).attr("type") == "password"){
-  						last.val("User Name Here");
+  						last.val(user);
   						clearInterval(timer);
   					}
   					last = $(this);

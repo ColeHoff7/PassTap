@@ -5,7 +5,6 @@ console.log("We made it");
 if($("[type=password]").length){
 	chrome.storage.local.get('id', function(profileObj) {
 		id = profileObj.id;
-		console.log(id);
 	  	if (typeof id === "undefined") {
 	  		console.log("Uninitialized user")
 	  	}else{

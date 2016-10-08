@@ -6,9 +6,9 @@ function load(){
 	  	if (typeof id === "undefined") {
     // No profile in storage
     	console.log("I kinda work");
-    	document.getElementById("content").innerHTML= "<h2>First Time User</h2> <p>Please enter the ID generated from" +
+    	document.getElementById("content").innerHTML= "<h3>First Time User?</h3> <p>Please enter the ID generated from" +
     	" the PassTap mobile app.<p> " +
-    	"<input id=\"ID\" type=\"text\">";
+    	"<input style=\"max-width:100\%\" id=\"ID\" type=\"text\">";
 		
 
   	} else {

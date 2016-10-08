@@ -11,6 +11,7 @@ import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -114,6 +115,8 @@ public class Authenticate extends AppCompatActivity {
         setContentView(R.layout.activity_authenticate);
         Bundle b = getIntent().getExtras();
         if(b != null) domain = b.getString("domain");
+        final TextView mTextView = (TextView) findViewById(R.id.output);
+        mTextView.setText("Scan Fingerprint to Authenticate for " + domain);
 
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);

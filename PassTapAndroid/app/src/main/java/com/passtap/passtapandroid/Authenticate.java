@@ -24,7 +24,7 @@ public class Authenticate extends AppCompatActivity {
         if(b != null) domain = b.getString("domain");
     }
 
-    private void sendAuthentication(View view) {
+    public void sendAuthentication(View view) {
         //send server authentication
         RequestQueue queue = Volley.newRequestQueue(this);
         String url ="https://passtap.com/server.php?v1=setPass&v2=";

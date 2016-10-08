@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "307806824542",
+    "firebase_url": "https://passtap-e4e35.firebaseio.com",
+    "project_id": "passtap-e4e35",
+    "storage_bucket": "passtap-e4e35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307806824542:android:84da9938454ec563",
+        "android_client_info": {
+          "package_name": "com.passtap.passtapandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307806824542-8gtk3a7vn6ebqf8s4ir49f2uaqkeq0pp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDfWt9hyjMZx16K-V1CZvtyeH_uqw-XTU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

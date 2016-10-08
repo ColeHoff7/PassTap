@@ -1,6 +1,13 @@
-chrome.tabs.executeScript(null,{file: "run2.js"});
+//chrome.tabs.executeScript(null,{file: "run2.js"});
 
+console.log("We did it again");
 
+chrome.extension.onRequest.addListener(function(tab){
+	console.log("Here we are");
+	chrome.tabs.executeScript({
+		code: 'document.body.style.backgroundColor="red"'
+	});
+});
 // chrome.tabs.onClicked.addListener(function(tab){
 // 	chrome.tabs.executeScript({
 // 		code: 'document.body.style.backgroundColor="red"'

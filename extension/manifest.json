@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Fingerprint Authentication Extension",
+  "name": "PassTap",
   "description": "This extension will fill in passwords after fingerprint authentication via mobile device",
   "version": "1.0",
 
@@ -10,6 +10,21 @@
    "default_popup": "popup.html"
   },
   "permissions": [
-   "activeTab"
-   ]
+   "activeTab",
+   "storage",
+   "tabs"
+   ],
+  "background": {
+    "scripts": ["jquery-3.1.1.min.js", "background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+  {
+    "matches": [
+      "<all_urls>"
+    ],
+    "js": ["jquery-3.1.1.min.js","run2.js"]
+  }
+]
+
 }

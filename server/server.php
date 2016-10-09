@@ -8,9 +8,9 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	$var = str_replace("www.","",$var);
 
 	$servername = "localhost";
-	$username = "tonetwgv_passtap";
-	$password = "ZQqGA8[]}T@#";
-	$database = "tonetwgv_passtap";
+	$username = "XXXXXXXX";
+	$password = "XXXXXXXX";
+	$database = "XXXXXXXX";
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $database);

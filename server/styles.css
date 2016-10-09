@@ -28,3 +28,9 @@ body{
 .landing .subtitle{
 	font-size: 6vmin;
 }
+
+.profile-pic{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}

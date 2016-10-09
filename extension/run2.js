@@ -41,6 +41,7 @@ if($("[type=password]").length){
   		$.ajax({
   			url: "https://passtap.com/server.php?v1=getPass&v2=" + id + "&v3=" + document.domain, 
   			success: function(result){
+  				console.log(result);
   				timer = setInterval(check, 2000);
     	}});
     }
@@ -58,7 +59,6 @@ if($("[type=password]").length){
     	$.ajax({
   			url: "https://passtap.com/server.php?v1=checkPass&v2=" + id + "&v3=" + document.domain, 
   			success: function(result){
-  					console.log("Return: " + result)
   				var data = JSON.parse(result);
   				console.log("Return: " + result);
   				if(result == 0){

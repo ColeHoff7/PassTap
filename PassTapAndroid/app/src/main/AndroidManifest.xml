@@ -33,7 +33,10 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <intent-filter>
+            <action android:name="com.passtap.passtapandroid.Authenticate" />
 
+        </intent-filter>
 
 
     </application>

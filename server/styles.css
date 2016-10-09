@@ -34,3 +34,16 @@ body{
 	-moz-border-radius: 50%;
 	border-radius: 50%;
 }
+
+.font-white{
+	color: white;
+}
+
+.section-dark{
+	background-color: #ddd;
+}
+
+.hr-short{
+	width: 40%;
+	text-align: center;
+}

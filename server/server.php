@@ -105,12 +105,21 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 		}
 
 		$message 	= $var;
-		$title 		= "Private Key Please";
-		$subtitle	= "Give me some of that private key pls";
-		$ticker 	= "What the hell is a ticker???";
+		$title 		= "PassTap Auth Request";
+		$subtitle	= "Click here to authorize your request";
+		$ticker 	= "";
 		
 		sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker);
 
+
+	}
+
+
+	if($cmd == "getAllPasswords"){
+
+
+		
+		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON a.id = at.account_id INNER JOIN domains d ON d.account_id = a.id WHERE at.token = '".$id."'";
 
 	}
 
@@ -123,6 +132,8 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 		$keyHash = crypt($id, $salt); 
 
 		$pass = crypt($var.$id, $id);
+
+		$pass = $pass."$a1B";//this extension ensures lowercase letter, upper letter, num, and character no matter the hash
 
 		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$pass."' WHERE a.private_hash = '".$keyHash."'";
 		$result = mysqli_query($conn, $sql);
@@ -233,26 +244,33 @@ function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker){
 	// echo "Phone Id: ".$phone_id;
 	$registrationIds = array( $phone_id );
 	// prep the bundle
-	$msg = array
-	(
+	// $msg = array
+	// (
+	// 	'message' 	=> $message,
+	// 	'title'		=> $title,
+	// 	'subtitle'	=> $subtitle,
+	// 	'tickerText'	=> $ticker,
+	// 	'vibrate'	=> 1,
+	// 	'sound'		=> 1,
+	// 	'largeIcon'	=> 'large_icon',
+	// 	'smallIcon'	=> 'small_icon'
+	// );
+	$notification = array(
 		'message' 	=> $message,
 		'title'		=> $title,
-		'subtitle'	=> $subtitle,
-		'tickerText'	=> $ticker,
+		'text'		=> $subtitle,
+		//'tickerText'	=> $ticker,
 		'vibrate'	=> 1,
 		'sound'		=> 1,
-		'largeIcon'	=> 'large_icon',
-		'smallIcon'	=> 'small_icon'
-	);
-	$notification = array(
-		'body'		=> $message,
-		'title'		=> 'GetPass Request'
+		'largeIcon'	=> 'icon',
+		'smallIcon'	=> 'icon',
+		'click_action' => 'AUTHENTICATE'
 	);
 	$fields = array
 	(
 		'registration_ids' 	=> $registrationIds,
-		'notification' 		=> $notification
-		//'data'			=> $msg
+		'notification' 		=> $notification,
+		'data'			=> array('domain' => $message)
 	);
 	 
 	$headers = array

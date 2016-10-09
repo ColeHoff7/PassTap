@@ -29,4 +29,21 @@
         android:layout_marginTop="200dp"
         android:id="@+id/button3"
         android:onClick="toMain"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_toEndOf="@+id/textView4"
+        android:layout_marginTop="17dp"
+        android:id="@+id/textView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/output"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif" />
 </RelativeLayout>

@@ -43,6 +43,8 @@ public class InitializeBrowserActivity extends AppCompatActivity {
         // Save key
 
         final TextView mTextView = (TextView) findViewById(R.id.output);
+        final TextView tv2 = (TextView) findViewById(R.id.textView4);
+        final TextView tv3 = (TextView) findViewById(R.id.textView5);
         RequestQueue queue = Volley.newRequestQueue(this);
         String token = instanceId.getToken();
         String url ="https://passtap.com/server.php?v1=generateKey&v2=";//thisisakey1&v3=";
@@ -68,7 +70,9 @@ public class InitializeBrowserActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            mTextView.setText("Enter this code into your browser: \n" + browserCode);
+                            mTextView.setText("Enter this code into your browser:");
+                            tv2.setText(browserCode);
+                            tv3.setText("Right after you enter it into your browser press 'All Set'!");
                         }else{
                             mTextView.setText("null");
                         }

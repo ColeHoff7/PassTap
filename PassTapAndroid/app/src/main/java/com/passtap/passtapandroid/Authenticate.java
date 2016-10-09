@@ -1,7 +1,6 @@
 package com.passtap.passtapandroid;
 
 import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -13,6 +12,8 @@ import android.security.keystore.KeyProperties;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
+import static com.passtap.passtapandroid.R.id.imageView;
+import static com.passtap.passtapandroid.R.id.textView3;
 
 public class Authenticate extends AppCompatActivity {
 
@@ -82,7 +86,7 @@ public class Authenticate extends AppCompatActivity {
                 }
             }
         }
-        final TextView mTextView = (TextView) findViewById(R.id.textView3);
+        final TextView mTextView = (TextView) findViewById(textView3);
         mTextView.setText("Scan Fingerprint to Authenticate for " + domain);
 
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
@@ -90,7 +94,11 @@ public class Authenticate extends AppCompatActivity {
 
         //Passcode if no fingerprint sensor
         if (!fingerprintManager.isHardwareDetected() || !fingerprintManager.hasEnrolledFingerprints()) {
-            mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            final ImageView iv = (ImageView) findViewById(imageView);
+            iv.setVisibility(View.GONE);
+            final TextView tv = (TextView) findViewById(textView3);
+            tv.setText("Enter Passcode");
+            mKeyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             if (!mKeyguardManager.isKeyguardSecure()) {
                 // Show a message that the user hasn't set up a lock screen.
                 Toast.makeText(this,

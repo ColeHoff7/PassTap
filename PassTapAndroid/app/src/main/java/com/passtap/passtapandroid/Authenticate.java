@@ -115,6 +115,18 @@ public class Authenticate extends AppCompatActivity {
         setContentView(R.layout.activity_authenticate);
         Bundle b = getIntent().getExtras();
         if(b != null) domain = b.getString("domain");
+        else{
+            b = getIntent().getExtras();
+            if(b != null) domain = b.getString("domain");
+            else{
+                try {
+                    throw new Exception("Failed to get domain data");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
         final TextView mTextView = (TextView) findViewById(R.id.textView3);
         mTextView.setText("Scan Fingerprint to Authenticate for " + domain);
 

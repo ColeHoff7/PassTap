@@ -34,9 +34,10 @@
             </intent-filter>
         </service>
         <activity
-            android:name=".Authenticate">
+            android:name=".Authenticate"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="Authenticate" />
+                <action android:name="AUTHENTICATE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

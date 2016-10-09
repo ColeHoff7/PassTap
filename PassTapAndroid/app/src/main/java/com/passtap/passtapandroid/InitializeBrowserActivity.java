@@ -72,7 +72,7 @@ public class InitializeBrowserActivity extends AppCompatActivity {
                             }
                             mTextView.setText("Enter this code into your browser:");
                             tv2.setText(browserCode);
-                            tv3.setText("Right after you enter it into your browser, press 'All Set' to start!");
+                            tv3.setText("Right after you enter it into your browser press 'All Set'!");
                         }else{
                             mTextView.setText("null");
                         }

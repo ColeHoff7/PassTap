@@ -35,7 +35,7 @@ function save(){
 	  			success: function(result){
 	  			console.log("Verify: " + result);
         		if(result==1){
-        			document.getElementById("content").innerHTML="<p>Success</p>";
+        			document.getElementById("content").innerHTML="<p>Press All Set on your app.</p>";
 					document.getElementById("submit").innerHTML="";
 					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         				chrome.tabs.update(tabs[0].id, {url: tabs[0].url});

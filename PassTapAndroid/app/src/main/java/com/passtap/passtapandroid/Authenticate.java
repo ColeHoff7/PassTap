@@ -89,7 +89,7 @@ public class Authenticate extends AppCompatActivity {
         fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
         //Passcode if no fingerprint sensor
-        if (!fingerprintManager.isHardwareDetected()) {
+        if (!fingerprintManager.isHardwareDetected() || !fingerprintManager.hasEnrolledFingerprints()) {
             mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
             if (!mKeyguardManager.isKeyguardSecure()) {
                 // Show a message that the user hasn't set up a lock screen.

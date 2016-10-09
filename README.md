@@ -4,8 +4,7 @@ Our project for MHacks 8. A password manager Chrome extension that uses your pho
 
 This project consists of a Chrome extension, a server, and an Android app that work together to make your life easier. The extension will automatically generate passwords based on a hash for any site you tell it to, and when you want to log in it will push to your phone asking you to authenticate with a fingerprint. You never need to remember passwords again! Best of all, your passwords aren't stored anywhere. Go to our website to download the extension and apk.
 
-##What Is It?
-Simple
+##Simple
 PassTap requires no master key, account creation, or local storage. Simply install the smartphone app and type the single use key into our chrome extension. No other set up necessary.
 
 ##Fast

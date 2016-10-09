@@ -15,7 +15,9 @@ if($("[type=password]").length){
 	  				console.log("checkDomain: "+ result);
 	        		if(result==1){
 	        			//has used domain
-	        			checkFill();
+	        			if(confirm("Would you like to get your password? \n A notification will be sent to your phone.")){
+	        				checkFill();
+	        			}
 	        		}else if(result==0){
 	        			//hasn't used domain
 	        			if (confirm('Would you like to generate a password for this site?')) {

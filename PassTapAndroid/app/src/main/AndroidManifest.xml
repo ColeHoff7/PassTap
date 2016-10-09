@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".InitializeBrowserActivity" />
         <activity android:name=".Init" />
-        <activity android:name=".Authenticate"></activity>
+
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
@@ -33,10 +33,14 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <intent-filter>
-            <action android:name="com.passtap.passtapandroid.Authenticate" />
+        <activity
+            android:name=".Authenticate">
+            <intent-filter>
+                <action android:name="Authenticate" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
-        </intent-filter>
 
 
     </application>

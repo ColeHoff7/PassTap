@@ -1,0 +1,30 @@
+
+body{
+	font-family: 'Product Sans', sans-serif;
+}
+
+.landing{
+
+	height: 100vh;
+	width: 100vw;
+	background: url(bg.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	display:table-cell;
+	vertical-align: middle;
+	text-align: center;
+	font-weight: bold;
+
+	color: white;
+
+}
+
+.landing h1{
+	font-size: 15vmin;
+}
+
+.landing .subtitle{
+	font-size: 6vmin;
+}

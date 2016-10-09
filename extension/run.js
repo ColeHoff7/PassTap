@@ -1,7 +1,8 @@
+var id;
 function load(){
 	console.log("I kinda work");
 	chrome.storage.local.get('id', function(profileObj) {
-		var id = profileObj.id;
+		id = profileObj.id;
 		console.log(id);
 	  	if (typeof id === "undefined") {
     // No profile in storage
@@ -14,9 +15,8 @@ function load(){
   	} else {
     // Profile exists in storage
     	$("#submit").attr("hidden","true");
-    	console.log(chrome.storage.local.get("id"), function(result){
-    		console.log(id.result);
-    	});
+        $('#reset').show();
+    	
     	
 
   	}
@@ -36,7 +36,7 @@ function save(){
 	  			console.log("Verify: " + result);
         		if(result==1){
         			document.getElementById("content").innerHTML="<p>Press All Set on your app.</p>";
-					document.getElementById("submit").innerHTML="";
+					$("#submit").attr("hidden","true");
 					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         				chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
     				});
@@ -54,6 +54,23 @@ function save(){
 	return false;
 }
 
+function resetPass(){
+        $.ajax({
+                url: "https://passtap.com/server.php?v1=resetPass&v2=" + id + "&v3=", 
+                success: function(result){
+                    console.log("Reset: " + result);
+                    if(result==1){
+                    document.getElementById("content").innerHTML="<p>Password Sucesssfully Reset</p>";
+                       $("#submit").attr("hidden","true");
+                        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                            chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
+                        });
+                    }
+                }
+        });
+}
+
+
 function reload(){
 	document.getElementById("content").innerHTML= "<p>Please enter the ID generated from" +
     	" the PassTap mobile app. Initial entry was incorrect.<p> " +
@@ -64,3 +81,4 @@ function reload(){
 
 load();
 document.getElementById("button").addEventListener('click', save);
+document.getElementById("reset").addEventListener('click', resetPass);

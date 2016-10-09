@@ -8,9 +8,9 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	$var = str_replace("www.","",$var);
 
 	$servername = "localhost";
-	$username = "XXXXXXXX";
-	$password = "XXXXXXXX";
-	$database = "XXXXXXXX";
+	$username = "tonetwgv_passtap";
+	$password = "ZQqGA8[]}T@#";
+	$database = "tonetwgv_passtap";
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $database);
@@ -60,9 +60,41 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	// Makes a new domain entry, then authorizes a password for it
 	if($cmd == "generatePass"){
 
-		$cmd = "getPass"; // Also run get pass after this
-
 		$var = json_decode($var, true);
+
+		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON at.account_id = a.id WHERE at.token = '".$id."'";
+		$result = mysqli_query($conn, $sql);
+
+		if (mysqli_num_rows($result) == 1) {
+
+			$cmd = "getPass"; // Also run get pass after this
+
+			$row = mysqli_fetch_assoc($result);
+			$account_id = $row['account_id'];
+
+			$salt = generateRandomString(10);
+
+			$sql = "INSERT INTO domains (account_id, domain, username, salt) VALUES ('".$account_id."', '".$var["domain"]."','".$var["username"]."','".$salt."')";
+			$result = mysqli_query($conn, $sql);
+
+			$var = $var["domain"];
+
+
+		} elseif (mysqli_num_rows($result) > 2) {
+
+			// reached in error, domain entry already exists. Go to reset pass for this domain
+			$cmd = "resetPass";
+
+		} else{
+			echo "ACCESS KEY NO LONGER VALID";
+		}
+		
+
+	}
+
+
+	// Modifies an existing domain entry, and then requests a password for it
+	if($cmd == "resetPass"){
 
 		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON at.account_id = a.id WHERE at.token = '".$id."'";
 		$result = mysqli_query($conn, $sql);
@@ -72,14 +104,18 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 			$row = mysqli_fetch_assoc($result);
 			$account_id = $row['account_id'];
 
-			$sql = "INSERT INTO domains (account_id, domain, username, salt) VALUES ('".$account_id."', '".$var["domain"]."','".$var["username"]."','FAKEsaltSTRING')";
+			$sql = "DELETE FROM domains WHERE account_id = '".$account_id."'";
 			$result = mysqli_query($conn, $sql);
 
-			$var = $var["domain"];
+			if($result){
+				echo 1;
+			}else{
+				echo 0;
+			}
 
 
 		}else{
-			echo "ACCESS KEY NO LONGER VALID";
+			echo "ACCESS KEY NO LONGER VALID OR DOMAIN ENTRY DOESN'T EXIST";
 		}
 		
 
@@ -118,30 +154,42 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	if($cmd == "getAllPasswords"){
 
 
-		
+		// TODO, this would be useful on the app
+
 		$sql = "SELECT * FROM access_tokens at INNER JOIN accounts a ON a.id = at.account_id INNER JOIN domains d ON d.account_id = a.id WHERE at.token = '".$id."'";
+
+		echo 0;
 
 	}
 
 
-	$salt = "uPIsomOpNedsadsaiKdwasddJfPaiHhhfyYUKkdnlLJLDKjLDWNqqemmIejsdOnnTesiJuNhsPolngfooMM";
+	// this salt is only used for verifying a private key since we don't have a lookup table for constant time salt lookup for private keys off the phone.
+	// The real passwords are salted with unique salt values on the database
+	$auth_salt = "uPIsomOpNedsadsaiKdwasddJfPaiHh";
 
 
 	if($cmd == "setPass"){
 
-		$keyHash = crypt($id, $salt); 
+		$keyHash = crypt($id, $auth_salt); 
 
-		$pass = crypt($var.$id, $id);
+		$sql = "SELECT * FROM accounts a INNER JOIN domains d on a.id = d.account_id WHERE a.private_hash = '".$keyHash."' AND d.domain = '".$var."'";
+		$result = mysqli_query($conn, $sql);
 
-		$pass = $pass."$a1B";//this extension ensures lowercase letter, upper letter, num, and character no matter the hash
+		$row = mysqli_fetch_assoc($result);
 
-		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$pass."' WHERE a.private_hash = '".$keyHash."'";
+		$account_id = $row['account_id'];
+		$domain = $row['domain'];
+		$salt = $row['salt'];
+
+		$pass = crypt($var.$id.$salt, $salt);
+
+		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$pass."' WHERE a.id = '".$account_id."' AND d.domain = '".$var."'";
 		$result = mysqli_query($conn, $sql);
 
 		if($result){
-			return 1;
+			echo 1;
 		}else{
-			return 0;
+			echo 0;
 		}
 
 	}
@@ -149,7 +197,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	if($cmd == "generateKey"){
 
 		$key = generateRandomString();
-		$keyHash = crypt($key, $salt); 
+		$keyHash = crypt($key, $auth_salt); 
 
 
 		$sql = "INSERT INTO accounts (phone_id, private_hash) VALUES ('".$id."', '".$keyHash."')";
@@ -173,7 +221,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 		if (mysqli_num_rows($result) > 0) {
 		    while($row = mysqli_fetch_assoc($result)) {
 
-		    	if(crypt($id, $salt) == $row['private_hash']){
+		    	if(crypt($id, $auth_salt) == $row['private_hash']){
 
 		    		$sql = "UPDATE accounts SET phone_id = '".$var."' WHERE id = ".$row['id'];
 					$result = mysqli_query($conn, $sql);

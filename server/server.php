@@ -104,7 +104,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 			$row = mysqli_fetch_assoc($result);
 			$account_id = $row['account_id'];
 
-			$sql = "DELETE FROM domains WHERE account_id = '".$account_id."'";
+			$sql = "DELETE FROM domains WHERE account_id = '".$account_id."' AND domain = '".$var."'";
 			$result = mysqli_query($conn, $sql);
 
 			if($result){

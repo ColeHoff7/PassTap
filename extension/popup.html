@@ -8,14 +8,22 @@
 	
 	<body style="width:300px; background-color:#1669a9">
 	<div style="width:80%; margin:auto; padding:10px; background-color:#ffffff" class="text-center">
+	<button style="display:block; margin:1px; padding:1px; float:right;" id="set" type="button">
+		<img src="SaveButton.png" alt="Settings" height="20px" width="20px">
+	</button>
 		<h1>PassTap</h1>
+		<div id="notSettings">
 		<div id="content">
 		</div>
 		<div id="submit">
 			<button style="display:block; margin:auto;" id="button" type="button">Submit</button>
 		</div>
 		<div style="display:none" id="reset">
-			<button style="display:block; margin:auto;" id="reset" type="button">Reset All Passwords</button>
+			<button style="display:block; margin:auto;" id="res" type="button">Reset Password</button>
+		</div>
+		</div>
+		<div id="Settings" style="display:none">
+			<h3>Settings</h3>
 		</div>
 		<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="run.js"></script>

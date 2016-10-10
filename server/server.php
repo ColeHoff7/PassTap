@@ -8,9 +8,8 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	$var = str_replace("www.","",$var);
 
 	$servername = "localhost";
-	$username = "XXXXXXXX";
-	$password = "XXXXXXXX";
-	$database = "XXXXXXXX";
+
+	require('passwords.php');
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $database);

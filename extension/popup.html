@@ -3,30 +3,64 @@
 	
 	<head>
 		<title>PassTap</title>
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="bootstrap.min.css">
+		<link rel="stylesheet" href="pop.css">
+		<script src="bootstrap.min.js"></script>
+		<script src="jquery-3.1.1.min.js"></script>
 	</head>
 	
-	<body style="width:300px; background-color:#1669a9">
-	<div style="width:80%; margin:auto; padding:10px; background-color:#ffffff" class="text-center">
-	<button style="display:block; margin:1px; padding:1px; float:right;" id="set" type="button">
-		<img src="SaveButton.png" alt="Settings" height="20px" width="20px">
-	</button>
-		<h1>PassTap</h1>
-		<div id="notSettings">
-		<div id="content">
+	<body>
+
+	<div id="whole">
+
+			<div id="ui-tabs">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" value="1" id="1">
+						<img id="1" src="home.png" alt="Home" height="15px" width="15px">
+					</a></li>
+					<li><a data-toggle="tab" value="2" id="2">
+						<img id="2" src="padlock.png" alt="padlock" height="15px" width="15px">
+					</a></li>
+					<li ><a data-toggle="tab" value="3" id="3">
+						<img id="3" src="settings.png" alt="Settings" height="15px" width="15px">
+					</a></li>
+				</ul>
+			</div>
+
+			<h1>PassTap</h1>
+
+		<div class="tab-content">
+		<div id="tab1" class="tab-pane fade in active">
+			<h3>Home</h3>
 		</div>
-		<div id="submit">
-			<button style="display:block; margin:auto;" id="button" type="button">Submit</button>
+		<div id="tab2" class="tab-pane fade in">
+			<h3>Change Password</h3>
 		</div>
-		<div style="display:none" id="reset">
-			<button style="display:block; margin:auto;" id="res" type="button">Reset Password</button>
-		</div>
-		</div>
-		<div id="Settings" style="display:none">
+		<div id="tab3" class="tab-pane fade in">
 			<h3>Settings</h3>
 		</div>
-		<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
-		<script type="text/javascript" src="run.js"></script>
+		</div>
+	
+		
+
+		<div id="notSettings" class="text-center">
+		<div id="content" class="text-center">
+		</div>
+		<div id="submit">
+			<button id="button" type="button">Submit</button>
+		</div>
+		<div id="reset">
+			<button id="res" type="button">Reset Password</button>
+		</div>
+		</div>
+
+		
 	</div>
+
+
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="run.js"></script>
 	</body>
 </html>

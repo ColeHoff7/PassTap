@@ -1,0 +1,48 @@
+body{
+	width:300px; 
+	background-color:#1669a9
+}
+
+#whole{
+	width:80%; 
+	margin:auto; 
+	padding:10px; 
+	background-color:#ffffff;
+}
+
+#set{
+	display:block; 
+	margin:1px; 
+	padding:1px; 
+	float:right;
+}
+
+#button{
+	display:block; 
+	margin:auto;
+}
+
+#reset{
+	display:none;
+}
+
+#res{
+	display:block; 
+	margin:auto;
+}
+
+#Settings{
+	display:none;
+}
+
+#navigation{
+	display: none
+}
+
+#tabs{
+	display: none;
+}
+
+h1{
+	margin-top: 0px;
+}

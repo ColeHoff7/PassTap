@@ -17,6 +17,9 @@ function load(){
                 }
                 //find & remove port number
                 domain = domain.split(':')[0];
+                if(domain.indexOf("www.")>-1){
+                    domain = domain.substring(domain.indexOf("www.")+4);
+                }
                 console.log(domain);
         });
 	  	if (typeof id === "undefined") {
@@ -28,6 +31,7 @@ function load(){
 
       	} else {
         // Profile exists in storage
+            settings();
         	$("#submit").attr("hidden","true");
             $("#navigation").show();
 
@@ -58,9 +62,7 @@ function save(){
 					reload();
         		}
         	}});
-	});
-	
-	
+	});	
     
     // location.reload();
 	return false;
@@ -83,15 +85,67 @@ function resetPass(){
 }
 
 function settings(){
-    $("#notSettings").attr("hidden","true");
-    $("#navigation").show();
-    $('#tabs').show();
-    $('#first').removeClass("active");
-    $('#sets').addClass("active");
-
+    chrome.storage.local.get(domain, function(autofill){
+    // $("#notSettings").attr("hidden","true");
+    // $("#navigation").show();
+    // $('#tabs').show();
+    // $('#first').removeClass("active");
+    // $('#sets').addClass("active");
+        console.log(autofill[domain]);
+        fill = autofill[domain];
+        if(fill == -1){
+            $('#never').prop('checked', true);
+        }
+        if(fill == 0){
+            $('#ask').prop('checked', true);
+        }
+        if(fill == 1){
+            $('#always').prop('checked', true);
+        }
+    });
 }
 
+function autofill(){
+    var dom = {};
+    dom[String(domain)] = -1;
+     chrome.storage.local.set(dom);
+     var get = {}
+     get[domain] = -2;
+     chrome.storage.local.get(get, function(fill){
+        console.log(fill[domain]);
+     });
+     console.log("Set");
+     console.log(domain);
+}
 
+function always(){
+    var dom = {};
+    dom[domain] = 1;
+    chrome.storage.local.set(dom);
+    var get = {}
+     get[domain] = -2;
+     chrome.storage.local.get([domain], function(fill){
+        console.log(fill[domain]);
+     });
+    console.log("Always");
+}
+
+function never(){
+    var dom = {};
+    dom[domain] = -1;
+    chrome.storage.local.set(dom);
+    var get = {}
+     get[domain] = -2;
+     chrome.storage.local.get([domain], function(fill){
+        console.log(fill[domain]);
+     });
+}
+
+function ask(){
+    var dom = {};
+    dom[domain] = 0;
+    chrome.storage.local.set(dom);
+}
 
 function reload(){
 	document.getElementById("content").innerHTML = "<p>Please enter the value generated from" +
@@ -126,8 +180,13 @@ $('ul.nav-tabs li a').click(function (e) {
 
 load();
 document.getElementById("button").addEventListener('click', save);
-document.getElementById("res").addEventListener('click', resetPass);
-document.getElementById("set").addEventListener('click', settings); 
+document.getElementById("reset").addEventListener('click', resetPass);
+// document.getElementById("set").addEventListener('click', settings); 
+document.getElementById("always").addEventListener('click', always); 
+document.getElementById("never").addEventListener('click', never); 
+document.getElementById("ask").addEventListener('click', ask); 
+document.getElementById("fill").addEventListener('click', autofill); 
+
 // document.getElementById("1").addEventListener('click', first);
 // document.getElementById("2").addEventListener('click', second);
 // document.getElementById("3").addEventListener('click', third);

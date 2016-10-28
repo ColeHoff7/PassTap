@@ -13,9 +13,30 @@
 	
 	<body>
 
-	<div id="whole">
+	
+		<div id = "bar">
+			<a href="https://passtap.com" target="_blank"><img id="3" src="question-mark.png" alt="Settings" height="15px" width="15px"></a>
+			<h3 class="text-center">PassTap</h3>
+		</div>
+		<div id="whole" class = "text-center">
+			<div id="fillpass">
+				<button id="fill" type="button">Fill Password</button>
+			</div>
+			<div class="well">
+				<p id="chngPass">Change Password for Current Site.</p>
+				<button id="reset" type="button">Reset Password</button>
+			</div>
+			<div class="well">
+				<p id="autoSet">Autofill Settings for Current Site</p>
+					<input type="radio" name="autofill" id = "always"> Always Autofill <br>
+					<input type="radio" name="autofill" id = "ask"> Ask to Autofill<br>
+					<input type="radio" name="autofill" id = "never"> Never Autofill
+			</div>
 
-			<div id="ui-tabs">
+
+
+
+			<!-- <div id="ui-tabs">
 				<ul class="nav nav-tabs">
 					<li class="active"><a data-toggle="tab" value="1" id="1">
 						<img id="1" src="home.png" alt="Home" height="15px" width="15px">
@@ -27,20 +48,19 @@
 						<img id="3" src="settings.png" alt="Settings" height="15px" width="15px">
 					</a></li>
 				</ul>
-			</div>
+			</div> -->
 
-			<h1>PassTap</h1>
-
-		<div class="tab-content">
+		<!-- <div class="tab-content">
 		<div id="tab1" class="tab-pane fade in active">
 			<h3>Home</h3>
 		</div>
 		<div id="tab2" class="tab-pane fade in">
 			<h3>Change Password</h3>
+			<button id="reset" type="button">Reset Password</button>
 		</div>
 		<div id="tab3" class="tab-pane fade in">
 			<h3>Settings</h3>
-		</div>
+		</div> -->
 		</div>
 	
 		
@@ -50,9 +70,6 @@
 		</div>
 		<div id="submit">
 			<button id="button" type="button">Submit</button>
-		</div>
-		<div id="reset">
-			<button id="res" type="button">Reset Password</button>
 		</div>
 		</div>
 

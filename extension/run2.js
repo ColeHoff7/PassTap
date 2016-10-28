@@ -1,11 +1,29 @@
 var id;
 var user;
-
+var domain = document.domain;
 console.log("We made it");
+// chrome.tabs.query({'currentWindow': true, 'active': true, 'lastFocusedWindow': true}, function (tabs){
+//   var url = tabs[0].url;
+//   console.log(url);
+//   //find & remove protocol (http, ftp, etc.) and get domain
+//   if (url.indexOf("://") > -1) {
+//       domain = url.split('/')[2];
+//   }
+//   else {
+//       domain = url.split('/')[0];
+//   }
+//   //find & remove port number
+//   domain = domain.split(':')[0];
+//   if(domain.indexOf("www.")>-1){
+//       domain = domain.substring(domain.indexOf("www.")+4);
+//   }
+//   console.log(domain);
+// });
 
 if($("[type=password]").length){
 	chrome.storage.local.get('id', function(profileObj) {
 		id = profileObj.id;
+    console.log(id);
 	  	if (typeof id === "undefined") {
 	  		console.log("Uninitialized user")
 	  	}else{
@@ -15,15 +33,14 @@ if($("[type=password]").length){
 	  				console.log("checkDomain: "+ result);
 	        		if(result==1){
 	        			//has used domain
-	        			if(confirm("Would you like to get your password? \n A notification will be sent to your phone.")){
-	        				checkFill();
-	        			}
+                checkFill();
 	        		}else if(result==0){
 	        			//hasn't used domain
 	        			if (confirm('Would you like to generate a password for this site?')) {
 	        				user = prompt("Username/Email:");
 	       	 				generatePass();
-	    				}
+                  chrome.storage.local.set({domain: -1});
+	    				   }
 	        		}else{
 	        			//invalid id
 	        			chrome.storage.local.remove('id');
@@ -40,13 +57,29 @@ if($("[type=password]").length){
 	var timer;
 
 	function checkFill(){
-  		$.ajax({
-  			url: "https://passtap.com/server.php?v1=getPass&v2=" + id + "&v3=" + document.domain, 
-  			success: function(result){
-  				console.log(result);
-  				timer = setInterval(check, 2000);
-    	}});
-    }
+   chrome.storage.local.get(domain, function(autofill){
+      console.log("autonum: " + autofill[domain]);
+      fill = autofill[domain];
+      if(fill==1){
+        $.ajax({
+          url: "https://passtap.com/server.php?v1=getPass&v2=" + id + "&v3=" + document.domain, 
+          success: function(result){
+            console.log(result);
+            timer = setInterval(check, 2000);
+        }});
+      } 
+      if(fill == 0){
+        if(confirm("Would you like to get your password? \n Change this setting in your extension.")){
+          $.ajax({
+            url: "https://passtap.com/server.php?v1=getPass&v2=" + id + "&v3=" + document.domain, 
+            success: function(result){
+              console.log(result);
+              timer = setInterval(check, 2000);
+          }});
+        }
+      }
+    });
+  }
 
     function generatePass(){
     	$.ajax({

@@ -1,13 +1,40 @@
 body{
-	width:300px; 
-	background-color:#1669a9
+	width:200px; 
+	background-color:#AAA
 }
 
 #whole{
 	width:80%; 
 	margin:auto; 
 	padding:10px; 
-	background-color:#ffffff;
+	background-color:#AAA;
+}
+
+.well{
+	padding:5px;
+}
+
+#fillpass{
+	margin: 10px;
+}
+
+#bar{
+	background-color: #1669c9;
+	color: #AAA;
+	margin: 0px;
+}
+
+#bar img{
+	float: left;
+	margin: 5px;
+}
+
+#bar h3{
+	margin:0px;
+}
+
+#chngPass{
+	margin-top: 0px; 
 }
 
 #set{
@@ -22,11 +49,11 @@ body{
 	margin:auto;
 }
 
-#reset{
+/*#reset{
 	display:none;
-}
+}*/
 
-#res{
+#reset{
 	display:block; 
 	margin:auto;
 }

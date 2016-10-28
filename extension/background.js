@@ -1,5 +1,5 @@
 //chrome.tabs.executeScript(null,{file: "run2.js"});
-
+var domain;
 console.log("We did it again");
 
 chrome.browserAction.onClicked.addListener(function(tab){
@@ -8,6 +8,8 @@ chrome.browserAction.onClicked.addListener(function(tab){
 		code: 'document.body.style.backgroundColor="red"'
 	});
 });
+
+
 // chrome.tabs.onClicked.addListener(function(tab){
 // 	chrome.tabs.executeScript({
 // 		code: 'document.body.style.backgroundColor="red"'

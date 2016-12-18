@@ -12,10 +12,21 @@ body{
 
 .well{
 	padding:5px;
+	margin-bottom: 5px;
 }
 
 #fillpass{
 	margin: 10px;
+}
+
+#gotPass{
+	display: none;
+	margin: auto;
+	margin-top: 5px;
+}
+
+#newPass{
+	margin-bottom: 5px;
 }
 
 #bar{

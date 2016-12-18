@@ -1,5 +1,6 @@
 var id;
 var domain;
+var currentTab;
 function load(){
 	console.log("I kinda work");
 	chrome.storage.local.get('id', function(profileObj) {
@@ -165,29 +166,56 @@ $('ul.nav-tabs li a').click(function (e) {
     $('#'+val).addClass('active');
 });
 
-// function first(){
-//     $('#tab1').addClass('active');
-// }
 
-// function second(){
-//     $('#tab2').addClass('active');
-// }
+function run(){
+  chrome.tabs.sendMessage(currentTab, {msg:'fill'}, function(response) {
+        console.log('Start action sent');
+    });
+   // $.ajax({
+   //        url: "https://passtap.com/server.php?v1=getPass&v2=" + id + "&v3=" + domain, 
+   //        success: function(result){
+   //          console.log("Result: " + result);
+   //          timer = setInterval(check, 2000);
+   //  }});
+}
 
-// function third(){
-//     $('#tab3').addClass('active');
-//     console.log("here");
-// }
 
+function check(){
+        $.ajax({
+            url: "https://passtap.com/server.php?v1=checkPass&v2=" + id + "&v3=" + domain, 
+            success: function(result){
+                var data = JSON.parse(result);
+                console.log("Return: " + result);
+                if(result == 0){
+                    return;
+                }
+                $("#gotPass").show();
+                $("#id").html("Username: <br>" + data["user"]);
+                $("#pass").html("Password: <br>" + data["password"]);
+                clearInterval(timer);
+            }});
+    }
+
+function callback(tabs) {
+  currentTab = tabs[0].id; // there will be only one in this array
+  console.log(currentTab); // also has methods like currentTab.id
+}
+
+  
+
+
+$(document).ready(function(){
 load();
+var query = { active: true, currentWindow: true };
+chrome.tabs.query(query, callback);
 document.getElementById("button").addEventListener('click', save);
 document.getElementById("reset").addEventListener('click', resetPass);
 // document.getElementById("set").addEventListener('click', settings); 
 document.getElementById("always").addEventListener('click', always); 
 document.getElementById("never").addEventListener('click', never); 
 document.getElementById("ask").addEventListener('click', ask); 
-document.getElementById("fill").addEventListener('click', autofill); 
-
+document.getElementById("fill").addEventListener('click', run); 
 // document.getElementById("1").addEventListener('click', first);
 // document.getElementById("2").addEventListener('click', second);
 // document.getElementById("3").addEventListener('click', third);
-
+});

@@ -9,6 +9,19 @@ chrome.browserAction.onClicked.addListener(function(tab){
 	});
 });
 
+chrome.extension.onMessage.addListener(
+    function(request, sender, sendResponse){
+        if(request.msg == "startFunc") call();
+    }
+);
+
+
+
+
+
+
+
+
 
 // chrome.tabs.onClicked.addListener(function(tab){
 // 	chrome.tabs.executeScript({

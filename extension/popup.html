@@ -9,6 +9,15 @@
 		<link rel="stylesheet" href="pop.css">
 		<script src="bootstrap.min.js"></script>
 		<script src="jquery-3.1.1.min.js"></script>
+		<script>
+			$('#fill').live('click',function(){
+				chrome.tabs.getSelected(null, function(tab){
+					chrome.tabs.sendRequest(tab.id, {msg: "run"}, function(){
+						alert("sent");
+					});
+				});
+			});
+		</script>
 	</head>
 	
 	<body>
@@ -21,9 +30,12 @@
 		<div id="whole" class = "text-center">
 			<div id="fillpass">
 				<button id="fill" type="button">Fill Password</button>
+				<div id = "gotPass">
+					<p id="id" class = "well">Username: <br></p>
+					<p id ="pass" class = "well">Password: <br></p>
+				</div>
 			</div>
-			<div class="well">
-				<p id="chngPass">Change Password for Current Site.</p>
+			<div id="newPass">
 				<button id="reset" type="button">Reset Password</button>
 			</div>
 			<div class="well">

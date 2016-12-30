@@ -70,19 +70,22 @@ function save(){
 }
 
 function resetPass(){
-        $.ajax({
-                url: "https://passtap.com/server.php?v1=resetPass&v2=" + id + "&v3=" + domain, 
-                success: function(result){
-                    console.log("Reset: " + result);
-                    if(result==1){
-                    document.getElementById("content").innerHTML="<p>Password Sucesssfully Reset</p>";
-                       $("#submit").attr("hidden","true");
-                        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                            chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
-                        });
-                    }
-                }
-        });
+   chrome.tabs.sendMessage(currentTab, {msg:'reset'}, function(response) {
+        console.log('Start action sent');
+    });
+        // $.ajax({
+        //         url: "https://passtap.com/server.php?v1=resetPass&v2=" + id + "&v3=" + domain, 
+        //         success: function(result){
+        //             console.log("Reset: " + result);
+        //             if(result==1){
+        //             document.getElementById("content").innerHTML="<p>Password Sucesssfully Reset</p>";
+        //                $("#submit").attr("hidden","true");
+        //                 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        //                     chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
+        //                 });
+        //             }
+        //         } 
+        // });
 }
 
 function settings(){

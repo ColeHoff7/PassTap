@@ -6,7 +6,9 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 	$id = $_REQUEST['v2'];
 	$var = $_REQUEST['v3'];
 	$var = str_replace("www.","",$var);
-
+	if(isset($_REQUEST['v4'])){
+		$accID = $_REQUEST['v4'];
+	}
 	$servername = "localhost";
 
 	require('passwords.php');
@@ -134,6 +136,8 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 
 			$phone_id = $row['phone_id'];
 
+			$salt = $row['salt'];
+
 		}else{
 
 			die("INVALID ACCESS CODE OR DOMAIN DOESN'T EXIST YET");
@@ -144,7 +148,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 		$subtitle	= "Click here to authorize your request";
 		$ticker 	= "";
 		
-		sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker);
+		sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker, $salt);
 
 
 	}
@@ -169,20 +173,20 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 
 	if($cmd == "setPass"){
 
-		$keyHash = crypt($id, $auth_salt); 
+		//$keyHash = crypt($id, $auth_salt); 
 
-		$sql = "SELECT * FROM accounts a INNER JOIN domains d on a.id = d.account_id WHERE a.private_hash = '".$keyHash."' AND d.domain = '".$var."'";
-		$result = mysqli_query($conn, $sql);
+		//$sql = "SELECT * FROM accounts a INNER JOIN domains d on a.id = d.account_id WHERE a.private_hash = '".$keyHash."' AND d.domain = '".$var."'";
+		//$result = mysqli_query($conn, $sql);
 
-		$row = mysqli_fetch_assoc($result);
+		//$row = mysqli_fetch_assoc($result);
 
-		$account_id = $row['account_id'];
-		$domain = $row['domain'];
-		$salt = $row['salt'];
+		//$account_id = $row['account_id'];
+		//$domain = $row['domain'];
+		//$salt = $row['salt'];
 
-		$pass = crypt($var.$id.$salt, $salt);
+		//$pass = crypt($var.$id.$salt, $salt);
 
-		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$pass."' WHERE a.id = '".$account_id."' AND d.domain = '".$var."'";
+		$sql = "UPDATE accounts a INNER JOIN domains d on d.account_id = a.id SET d.pass = '".$id."' WHERE a.id = '".$accID."' AND d.domain = '".$var."'";
 		$result = mysqli_query($conn, $sql);
 
 		if($result){
@@ -208,7 +212,7 @@ if(isset($_REQUEST['v1']) && isset($_REQUEST['v2']) && isset($_REQUEST['v3'])){
 		$sql = "INSERT INTO access_tokens (account_id, token) VALUES ('".$last_id."', '".$accessToken."')";
 		$result = mysqli_query($conn, $sql);
 
-		echo '{ "private_key": "'.$key.'", "access_token":"'.$accessToken.'"}';
+		echo '{ "acc_id": "'.$last_id.'", "access_token":"'.$accessToken.'"}';
 
 	}
 
@@ -285,7 +289,7 @@ function generateRandomString($length = 100) {
 
 
 
-function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker){
+function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker, $salt){
 	// API access key from Google API's Console
 	define( 'API_ACCESS_KEY', 'AIzaSyCVLkbfdq3rYbEYq_oIq0xDWfQdBXy4C-4' );
 	// echo "Phone Id: ".$phone_id;
@@ -317,7 +321,7 @@ function sendAndroidMessage($phone_id, $message, $title, $subtitle, $ticker){
 	(
 		'registration_ids' 	=> $registrationIds,
 		'notification' 		=> $notification,
-		'data'			=> array('domain' => $message)
+		'data'			=> array('domain' => $message, 'salt' => $salt)
 	);
 	 
 	$headers = array

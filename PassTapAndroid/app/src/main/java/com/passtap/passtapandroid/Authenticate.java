@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.security.MessageDigest;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -47,6 +48,7 @@ import static com.passtap.passtapandroid.R.id.textView3;
 public class Authenticate extends AppCompatActivity {
 
     String domain = null;
+    String salt = null;
     private static final String KEY_NAME = "my_key";
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
@@ -73,7 +75,10 @@ public class Authenticate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate);
         Bundle b = getIntent().getExtras();
-        if(b != null) domain = b.getString("domain");
+        if(b != null){
+            domain = b.getString("domain");
+            salt = b.getString("salt");
+        }
         else{
             b = getIntent().getExtras();
             if(b != null) domain = b.getString("domain");
@@ -326,7 +331,10 @@ public class Authenticate extends AppCompatActivity {
                 e.printStackTrace();
             }
         }else {
-            url += pk + "&v3=" + domain;
+            SharedPreferences shp = getSharedPreferences("accountID", 0);
+            String id = shp.getString("accountID", "ERROR");
+            String pass = get_SHA_512_SecurePassword(pk, salt+domain);
+            url += pass + "&v3=" + domain + "&v4=" + id;
         }
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -353,5 +361,23 @@ public class Authenticate extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt.getBytes("UTF-8"));
+            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
 }

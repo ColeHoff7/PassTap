@@ -17,6 +17,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Random;
 
 
 public class InitializeBrowserActivity extends AppCompatActivity {
@@ -59,14 +60,20 @@ public class InitializeBrowserActivity extends AppCompatActivity {
                         if(response != null) {
                             String browserCode = "ERROR";
                             String privateKey = null;
+                            String accountID = null;
                             try {
                                 JSONObject json = new JSONObject(response);
                                 browserCode = json.getString("access_token");
-                                privateKey = json.getString("private_key");
+                                accountID = json.getString("acc_id");
+                                privateKey = generateRandString();
                                 SharedPreferences sp = getSharedPreferences("privateKey", 0);
                                 SharedPreferences.Editor editor = sp.edit();
+                                SharedPreferences shp = getSharedPreferences("accoutID", 0);
+                                SharedPreferences.Editor edit = shp.edit();
                                 editor.putString("privateKey", privateKey);
+                                edit.putString("accountID", accountID);
                                 editor.commit();
+                                edit.commit();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -86,5 +93,18 @@ public class InitializeBrowserActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
         return;
+    }
+
+    protected String generateRandString(){
+        String characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int charactersLength = characters.length();
+        String randomString = "";
+        Random rand = new Random();
+        for (int i = 0; i < 100; i++) {
+            int get = rand.nextInt(charactersLength)-1;
+            if(get<0) get = 0;
+            randomString = randomString + characters.charAt(get);
+        }
+        return randomString;
     }
 }

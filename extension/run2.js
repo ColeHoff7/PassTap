@@ -106,6 +106,36 @@ if($("[type=password]").length){
               timer = setInterval(check, 2000);
           }});
       }
+      if(request.msg == 'reset'){
+        // $.ajax({
+        //         url: "https://passtap.com/server.php?v1=resetPass&v2=" + id + "&v3=" + domain, 
+        //         success: function(result){
+        //             console.log("Reset: " + result);
+        //             if(result==1){
+        //                $("#submit").attr("hidden","true");
+        //                 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        //                     chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
+        //                 });
+        //             }
+
+        // if($('input[id*="current"]').length != 0) {
+        //   $('input[id*="current"]').val("old");
+        //   $('input[id*="current"]').next().val("new");
+        //   $('input[id*="current"]').next().next().val("new");
+        // }else if($('input[id*="old"]').length != 0){
+        //   $('input[id*="old"]').val("old");
+        //   $('input[id*="old"]').next().val("new");
+        //   $('input[id*="old"]').next().next().val("new");
+        // }else{
+          $('input[type=password]').val("old");
+          $('input[type=password]').next().val("new");
+          $('input[type=password]').next().next().val("new");
+
+        //   }
+        // });
+
+        // }  
+      }
     }
 
 

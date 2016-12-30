@@ -35,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         sendNotification(remoteMessage.getNotification().getBody());
-        authenticate(remoteMessage.getData().get("domain"));
+        authenticate(remoteMessage.getData().get("domain"), remoteMessage.getData().get("salt"));
     }
 
     private void sendNotification(String messageBody) {
@@ -59,11 +59,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0  , notificationBuilder.build());*/
     }
 
-    private void authenticate(String domain){
+    private void authenticate(String domain, String salt){
         Intent intent = new Intent(this, Authenticate.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle b = new Bundle();
         b.putString("domain", domain);
+        b.putString("salt", salt);
         intent.putExtras(b);
         startActivity(intent);
     }
